@@ -1,3 +1,3 @@
 from unittest import TestCase
 
-from timetools import Timecode
+from timecode import Timecode
