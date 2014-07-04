@@ -5,36 +5,47 @@ import re
 _base = collections.namedtuple('_TimecodeBase', ('timecode', 'fps', 'frames'))
 
 
-class Timecode(_base):
+cdef class Timecode(object):
 
-    def __new__(cls, raw, fps=24, field_mode=False, oddfield=False):
+    def __cinit__(self, value, rate=24):
 
-        # Passthrough compatible class.
-        if isinstance(raw, cls):
-            return raw
+        if isinstance(value, Timecode):
+            self.rate = value.rate
+            self.hours = value.hours
+            self.minutes = value.minutes
+            self.seconds = value.seconds
+            self.frames = value.frames
+            return
 
-        elif isinstance(raw, basestring):
-            m = re.match(r'^(\d{2}):(\d{2}):(\d{2})[:;](\d{2})$', raw)
+        if isinstance(value, basestring):
+
+            m = re.match(r'^(\d{2}):(\d{2}):(\d{2})[:;](\d{2})$', value)
             if not m:
                 raise ValueError('bad timecode format')
-            hours, minutes, seconds, frames = (int(x) for x in m.groups())
-            if minutes > 59 or seconds > 59 or frames > (fps - 1):
+
+            self.rate = rate
+            self.hours = int(m.group(1))
+            self.minutes = int(m.group(2))
+            self.seconds = int(m.group(3))
+            self.frames = int(m.group(4))
+
+            if self.minutes > 59 or self.seconds > 59 or self.frames > (self.rate - 1):
                 raise ValueError('out of range')
-            if field_mode:
-                ffm = (((hours * 60 + minutes) * 60 + seconds) * fps + frames) * 2 + (1 if oddfield else 0)
-            else:
-                ffm = ((hours * 60 + minutes) * 60 + seconds) * fps + frames
-            return _base.__new__(cls, raw, fps, ffm)
 
-        elif isinstance(raw, int):
-            seconds, frames = divmod(raw, fps)
-            minutes, seconds = divmod(seconds, 60)
-            hours, minutes = divmod(minutes, 60)
-            timecode = '%02d:%02d:%02d:%02d' % (hours, minutes, seconds, frames)
-            return _base.__new__(cls, timecode, fps, raw)
+            return
 
-        else:
-            raise TypeError('timecode must be int or str')
+        raise TypeError('timecode must be timecode or str')
+
+    property timecode:
+        def __get__(self):
+            return '%02d:%02d:%02d:%02d' % (self.hours, self.minutes, self.seconds, self.frames)
+
+    def __str__(self):
+        return self.timecode
+
+    property samples:
+        def __get__(self):
+            return ((self.hours * 60 + self.minutes) * 60 + self.seconds) * self.rate + self.frames
 
 
 
