@@ -1,5 +1,4 @@
-- Make sure we aren't doing type checking in arithmatic wrong; see:
+- Make sure we aren't doing type checking in arithmatic/richcmp wrong; see:
   http://docs.cython.org/src/userguide/special_methods.html#arithmetic-methods
 
-- Rich comparisons via __richcmp__; see: 
-  http://docs.cython.org/src/userguide/special_methods.html#rich-comparisons
+- SampleRate for ideal convertion of samples to time?

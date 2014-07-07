@@ -1,3 +1,5 @@
+import itertools
+
 from . import *
 
 
@@ -11,3 +13,6 @@ class TestCrossCasts(TestCase):
         x = Time(2.0)
         self.assertRaises(TypeError, Sample, x)
 
+    def test_cross_comparisons(self):
+    	for A, B in itertools.permutations((Sample, SampleCount, Time, Duration), 2):
+	    	self.assertNotEqual(A(1), B(1))

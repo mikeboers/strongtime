@@ -1,3 +1,5 @@
+import operator
+
 from . import *
 
 
@@ -30,4 +32,15 @@ class TestSamples(TestCase):
         y = a + e + e
         self.assertIsInstance(x, Sample)
         self.assertEqual(y.sample, -5)
+
+    def test_sample_comparisons(self):
+        for x, y in [(0, 1), (1, 0), (1, 1)]:
+            for op in (getattr(operator, name) for name in ('lt', 'le', 'eq', 'ne', 'ge', 'gt')):
+                self.assertEqual(op(x, y), op(Sample(x), Sample(y)))
+
+    def test_sample_count_comparisons(self):
+        for x, y in [(0, 1), (1, 0), (1, 1)]:
+            for op in (getattr(operator, name) for name in ('lt', 'le', 'eq', 'ne', 'ge', 'gt')):
+                self.assertEqual(op(x, y), op(SampleCount(x), SampleCount(y)))
+
 

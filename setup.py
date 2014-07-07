@@ -19,7 +19,7 @@ setup(
     description='Time and sequence representations for film.',
     url='http://github.com/mikeboers/timecode',
     
-    packages=['timecode'],
+    packages=['timecode', 'timecode.ext'],
     ext_modules=ext_modules,
 
     author='Mike Boers',

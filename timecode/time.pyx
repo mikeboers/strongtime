@@ -1,11 +1,11 @@
 
 cdef class Time(object):
 
-    def __cinit__(self, time):
-        if isinstance(time, Time):
-            self.time = time.time
+    def __cinit__(self, value):
+        if isinstance(value, Time):
+            self.time = value.time
         else:
-            self.time = time
+            self.time = value
 
     def __repr__(self):
         return 'Time(%s)' % self.time
@@ -24,18 +24,54 @@ cdef class Time(object):
         else:
             return NotImplemented
 
+    def __richcmp__(self, other, int op):
+        if not isinstance(other, Time):
+            return NotImplemented
+        cdef double x = self.time
+        cdef double y = other.time
+        if op == 0:
+            return x < y
+        elif op == 1:
+            return x <= y
+        elif op == 2:
+            return x == y
+        elif op == 3:
+            return x != y
+        elif op == 4:
+            return x > y
+        elif op == 5:
+            return x >= y
+
 
 cdef class Duration(object):
 
-    def __cinit__(self, duration):
-        if isinstance(duration, Duration):
-            self.duration = duration.duration
+    def __cinit__(self, value):
+        if isinstance(value, Duration):
+            self.duration = value.duration
         else:
-            self.duration = duration
+            self.duration = value
 
     def __repr__(self):
         return 'Duration(%s)' % self.duration
 
     def __float__(self):
         return self.duration
+
+    def __richcmp__(self, other, int op):
+        if not isinstance(other, Duration):
+            return NotImplemented
+        cdef double x = self.duration
+        cdef double y = other.duration
+        if op == 0:
+            return x < y
+        elif op == 1:
+            return x <= y
+        elif op == 2:
+            return x == y
+        elif op == 3:
+            return x != y
+        elif op == 4:
+            return x > y
+        elif op == 5:
+            return x >= y
 
