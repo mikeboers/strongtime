@@ -1,10 +1,9 @@
 
 cdef class Timecode(object):
 
-    cdef readonly float rate
-
-    cdef readonly int hours
-    cdef readonly int minutes
-    cdef readonly int seconds
-    cdef readonly int frames
+    cdef readonly unsigned int rate
+    cdef readonly unsigned int hours
+    cdef readonly unsigned int minutes
+    cdef readonly unsigned int seconds
+    cdef readonly unsigned int frames
 
