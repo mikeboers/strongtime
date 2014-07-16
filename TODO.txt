@@ -2,3 +2,5 @@
   http://docs.cython.org/src/userguide/special_methods.html#arithmetic-methods
 
 - SampleRate for ideal convertion of samples to time?
+
+- t1 == ~t2 (via __invert__ which proxies approx(e=10**-6)) could be a standin for "approximately equal"
