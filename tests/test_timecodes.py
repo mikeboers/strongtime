@@ -1,6 +1,3 @@
-import itertools
-import operator
-
 from . import *
 
 
@@ -36,6 +33,7 @@ class TestTimecodes(TestCase):
     def test_time_comparisons(self):
         examples = '''
             00:00:00:00
+            00:00:00:01
             01:00:00:00
             11:22:33:01
         '''.strip().split()

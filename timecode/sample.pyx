@@ -1,4 +1,21 @@
 
+cdef long get_sample_long(x) except? 0:
+    if isinstance(x, Sample):
+        return x.sample
+    elif isinstance(x, int):
+        return <long>x
+    else:
+        raise TypeError('expected Sample or int')
+
+cdef long get_samplecount_long(x) except? 0:
+    if isinstance(x, SampleCount):
+        return x.count
+    elif isinstance(x, int):
+        return <long>x
+    else:
+        raise TypeError('expected Sample or int')
+
+
 cdef class Sample(object):
 
     def __cinit__(self, value):
@@ -14,10 +31,8 @@ cdef class Sample(object):
         return self.sample
 
     def __richcmp__(self, other, int op):
-        if not isinstance(other, Sample):
-            return NotImplemented
-        cdef int x = self.sample
-        cdef int y = other.sample
+        cdef long x = get_sample_long(self)
+        cdef long y = get_sample_long(other)
         if op == 0:
             return x < y
         elif op == 1:
@@ -58,10 +73,8 @@ cdef class SampleCount(object):
         return self.count
 
     def __richcmp__(self, other, int op):
-        if not isinstance(other, SampleCount):
-            return NotImplemented
-        cdef int x = self.count
-        cdef int y = other.count
+        cdef long x = get_samplecount_long(self)
+        cdef long y = get_samplecount_long(other)
         if op == 0:
             return x < y
         elif op == 1:

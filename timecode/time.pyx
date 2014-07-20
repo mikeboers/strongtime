@@ -1,4 +1,21 @@
 
+cdef double get_time_double(x) except *:
+    if isinstance(x, Time):
+        return x.time
+    elif isinstance(x, float):
+        return <double>x
+    else:
+        raise TypeError('expected Time or float')
+
+cdef double get_duration_double(x) except *:
+    if isinstance(x, Duration):
+        return x.duration
+    elif isinstance(x, float):
+        return <double>x
+    else:
+        raise TypeError('expected Duration or float')
+
+
 cdef class Time(object):
 
     def __cinit__(self, value):
@@ -28,10 +45,8 @@ cdef class Time(object):
         return Time(self.time * x)
 
     def __richcmp__(self, other, int op):
-        if not isinstance(self, Time) or not isinstance(other, Time):
-            return NotImplemented
-        cdef double x = self.time
-        cdef double y = other.time
+        cdef double x = get_time_double(self)
+        cdef double y = get_time_double(other)
         if op == 0:
             return x < y
         elif op == 1:
@@ -77,10 +92,8 @@ cdef class Duration(object):
         return Duration(self.duration / other)
 
     def __richcmp__(self, other, int op):
-        if not isinstance(other, Duration):
-            return NotImplemented
-        cdef double x = self.duration
-        cdef double y = other.duration
+        cdef double x = get_duration_double(self)
+        cdef double y = get_duration_double(other)
         if op == 0:
             return x < y
         elif op == 1:

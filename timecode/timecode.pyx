@@ -57,12 +57,9 @@ cdef class Timecode(object):
         def __get__(self):
             return ((self.hours * 60 + self.minutes) * 60 + self.seconds) * self.rate + self.frames
 
-
-    def __richcmp__(self, other, int op):
-        if not isinstance(other, Timecode):
-            return NotImplemented
-        cdef double x = self.ffm
-        cdef double y = other.ffm
+    def __richcmp__(Timecode self, Timecode other, int op):
+        cdef long x = self.ffm
+        cdef long y = other.ffm
         if op == 0:
             return x < y
         elif op == 1:
