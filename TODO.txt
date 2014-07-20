@@ -1,4 +1,5 @@
 - Rename this project to something unique on the PyPI.
+    - strongtime
 
 - SampleRate for ideal convertion of samples to time?
 

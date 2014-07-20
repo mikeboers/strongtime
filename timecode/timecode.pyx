@@ -1,8 +1,7 @@
 import collections
 import re
 
-from .sample cimport SampleCount
-
+from .sample cimport Sample, SampleCount
 
 
 cdef class Timecode(object):
@@ -55,11 +54,16 @@ cdef class Timecode(object):
 
     property ffm:
         def __get__(self):
-            return ((self.hours * 60 + self.minutes) * 60 + self.seconds) * self.rate + self.frames
+            return Sample(
+                ((self.hours * 60 + self.minutes) * 60 + self.seconds) * self.rate + self.frames
+            )
+
+    def __int__(self):
+        return self.ffm.sample
 
     def __richcmp__(Timecode self, Timecode other, int op):
-        cdef long x = self.ffm
-        cdef long y = other.ffm
+        cdef long x = self.ffm.sample
+        cdef long y = other.ffm.sample
         if op == 0:
             return x < y
         elif op == 1:
@@ -72,9 +76,6 @@ cdef class Timecode(object):
             return x > y
         elif op == 5:
             return x >= y
-
-    def __int__(self):
-        return self.ffm
 
     def __sub__(self, other):
         if isinstance(other, Timecode):
