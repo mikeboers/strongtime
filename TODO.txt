@@ -1,11 +1,6 @@
 - Rename this project to something unique on the PyPI.
     - strongtime
 
-- SampleRate for ideal convertion of samples to time?
-
 - t1 == ~t2 (via __invert__ which proxies approx(e=10**-6)) could be a standin for "approximately equal"
 
 - Does this really need to be in Cython? Does the speed actually get us anything?
-
-- If Cython, can these just be extensions of int/float, or do they really need
-  to be external classes?

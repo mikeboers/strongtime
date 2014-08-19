@@ -1,4 +1,5 @@
 from .utils cimport fastrichcmp
+from .sample cimport Sample, SampleCount, SampleRate
 
 
 cdef double get_time_double(x) except *:
@@ -43,8 +44,13 @@ cdef class Time(object):
         else:
             return NotImplemented
 
-    def __mul__(self, float x):
-        return Time(self.time * x)
+    def __mul__(Time self, x):
+        if isinstance(x, float):
+            return Time(self.time * x)
+        elif isinstance(x, SampleRate):
+            return Sample(self.time * x.rate)
+        else:
+            raise NotImplemented
 
     def __richcmp__(self, other, int op):
         return fastrichcmp(
@@ -75,9 +81,12 @@ cdef class Duration(object):
         return Time(self.duration + other.time)
 
     def __mul__(Duration self, other):
-        if type(other) is not float:
-            return NotImplemented
-        return Duration(self.duration * other)
+        if isinstance(other, float):
+            return Duration(self.duration * other)
+        elif isinstance(other, SampleRate):
+            return SampleCount(self.duration * other.rate)
+        else:
+            raise NotImplemented
 
     def __truediv__(Duration self, other):
         if type(other) is not float:

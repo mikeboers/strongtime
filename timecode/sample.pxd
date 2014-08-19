@@ -8,3 +8,7 @@ cdef class SampleCount(object):
     
     cdef readonly long count
 
+
+cdef class SampleRate(object):
+
+    cdef readonly double rate

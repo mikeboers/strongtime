@@ -6,13 +6,13 @@ import sys
 
 from timecode import (
     Timecode,
-    Sample, SampleCount,
+    Sample, SampleCount, SampleRate,
     Time, Duration,
 )
 
 
 
-all_types = (Sample, SampleCount, Time, Duration, Timecode, int, float)
+all_types = (Sample, SampleCount, SampleRate, Time, Duration, Timecode, int, float)
 
 def get_type_pairs(*type_sets):
     res = set()
@@ -26,6 +26,7 @@ comparable_type_pairs = frozenset(get_type_pairs(
     (int, float),
     (Sample, int),
     (SampleCount, int),
+    (SampleRate, float),
     (Time, float),
     (Duration, float),
 ))
