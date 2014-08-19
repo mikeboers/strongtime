@@ -1,3 +1,5 @@
+from .utils cimport fastrichcmp
+
 
 cdef double get_time_double(x) except *:
     if isinstance(x, Time):
@@ -45,20 +47,11 @@ cdef class Time(object):
         return Time(self.time * x)
 
     def __richcmp__(self, other, int op):
-        cdef double x = get_time_double(self)
-        cdef double y = get_time_double(other)
-        if op == 0:
-            return x < y
-        elif op == 1:
-            return x <= y
-        elif op == 2:
-            return x == y
-        elif op == 3:
-            return x != y
-        elif op == 4:
-            return x > y
-        elif op == 5:
-            return x >= y
+        return fastrichcmp(
+            get_time_double(self),
+            get_time_double(other),
+            op
+        )
 
 
 cdef class Duration(object):
@@ -92,18 +85,9 @@ cdef class Duration(object):
         return Duration(self.duration / other)
 
     def __richcmp__(self, other, int op):
-        cdef double x = get_duration_double(self)
-        cdef double y = get_duration_double(other)
-        if op == 0:
-            return x < y
-        elif op == 1:
-            return x <= y
-        elif op == 2:
-            return x == y
-        elif op == 3:
-            return x != y
-        elif op == 4:
-            return x > y
-        elif op == 5:
-            return x >= y
+        return fastrichcmp(
+            get_duration_double(self),
+            get_duration_double(other),
+            op
+        )
 

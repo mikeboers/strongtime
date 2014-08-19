@@ -7,3 +7,5 @@ cdef class Timecode(object):
     cdef readonly unsigned int seconds
     cdef readonly unsigned int frames
 
+    cdef long _ffm(self)
+

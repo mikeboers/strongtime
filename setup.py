@@ -9,7 +9,7 @@ except ImportError:
 ext_modules = [Extension(name,
     sources=['%s.pyx' % name.replace('.', '/')],
     include_dirs=['timecode'],
-) for name in ('timecode.sample', 'timecode.time', 'timecode.timecode')]
+) for name in ('timecode.sample', 'timecode.time', 'timecode.timecode', 'timecode.utils')]
 
 
 setup(

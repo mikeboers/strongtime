@@ -1,3 +1,5 @@
+from .utils cimport fastrichcmp
+
 
 cdef long get_sample_long(x) except? 0:
     if isinstance(x, Sample):
@@ -31,20 +33,11 @@ cdef class Sample(object):
         return self.sample
 
     def __richcmp__(self, other, int op):
-        cdef long x = get_sample_long(self)
-        cdef long y = get_sample_long(other)
-        if op == 0:
-            return x < y
-        elif op == 1:
-            return x <= y
-        elif op == 2:
-            return x == y
-        elif op == 3:
-            return x != y
-        elif op == 4:
-            return x > y
-        elif op == 5:
-            return x >= y
+        return fastrichcmp(
+            get_sample_long(self),
+            get_sample_long(other),
+            op
+        )
 
     def __add__(self, SampleCount d):
         return Sample(self.sample + d.count)
@@ -73,17 +66,10 @@ cdef class SampleCount(object):
         return self.count
 
     def __richcmp__(self, other, int op):
-        cdef long x = get_samplecount_long(self)
-        cdef long y = get_samplecount_long(other)
-        if op == 0:
-            return x < y
-        elif op == 1:
-            return x <= y
-        elif op == 2:
-            return x == y
-        elif op == 3:
-            return x != y
-        elif op == 4:
-            return x > y
-        elif op == 5:
-            return x >= y
+        return fastrichcmp(
+            get_samplecount_long(self),
+            get_samplecount_long(other),
+            op
+        )
+
+
