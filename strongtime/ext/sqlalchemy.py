@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 from sqlalchemy.types import TypeDecorator, Integer, Float
 
-from timecode import Sample, SampleCount, Time
+from strongtime import Sample, SampleCount, Time
 
 
 class SampleType(TypeDecorator):
