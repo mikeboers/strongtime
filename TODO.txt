@@ -1,5 +1,3 @@
-- Rename this project to something unique on the PyPI.
-    - strongtime
 
 - t1 == ~t2 (via __invert__ which proxies approx(e=10**-6)) could be a standin for "approximately equal"
 

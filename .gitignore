@@ -1,6 +1,6 @@
 *.pyc
 .DS_Store
-/timecode/*.c
+/strongtime/*.c
 *.so
 *.egg-info
 /build

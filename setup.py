@@ -8,22 +8,22 @@ except ImportError:
 
 ext_modules = [Extension(name,
     sources=['%s.pyx' % name.replace('.', '/')],
-    include_dirs=['timecode'],
-) for name in ('timecode.sample', 'timecode.time', 'timecode.timecode', 'timecode.utils')]
+    include_dirs=['strongtime'],
+) for name in ('strongtime.sample', 'strongtime.time', 'strongtime.timecode', 'strongtime.utils')]
 
 
 setup(
     
-    name='timecode',
+    name='strongtime',
     version='0.1.0',
-    description='Time and sequence representations for film.',
-    url='http://github.com/mikeboers/timecode',
+    description='Strongly-typed time and sequence representations for audio/video.',
+    url='http://github.com/mikeboers/strongtime',
     
-    packages=['timecode', 'timecode.ext'],
+    packages=['strongtime', 'strongtime.ext'],
     ext_modules=ext_modules,
 
     author='Mike Boers',
-    author_email='timecode@mikeboers.com',
+    author_email='strongtime@mikeboers.com',
     license='BSD-3',
 
     install_requires=[

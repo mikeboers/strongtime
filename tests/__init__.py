@@ -4,7 +4,7 @@ import operator
 import random
 import sys
 
-from timecode import (
+from strongtime import (
     Timecode,
     Sample, SampleCount, SampleRate,
     Time, Duration,
