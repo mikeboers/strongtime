@@ -25,3 +25,23 @@ class TestTimes(TestCase):
                     op.__name__, x, y,
                     op.__name__, x, y,
                 ))
+
+    def test_approx_comparisons(self):
+
+        for cls in Time, Duration:
+
+            a = cls(0.1 + 0.2)
+            b = cls(0.3)
+
+            self.assertFalse(a == b)
+            self.assertTrue(a.almost_eq(b))
+            self.assertTrue(a.almost_lt(b))
+            self.assertTrue(a.almost_gt(b))
+
+            self.assertTrue(cls(1).almost_lt(2.0))
+            self.assertFalse(cls(1).almost_eq(2.0))
+            self.assertFalse(cls(1).almost_gt(2.0))
+
+            self.assertTrue(cls(2).almost_gt(1.0))
+            self.assertFalse(cls(2).almost_eq(1.0))
+            self.assertFalse(cls(2).almost_lt(1.0))

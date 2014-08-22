@@ -2,6 +2,9 @@ from .utils cimport fastrichcmp
 from .sample cimport Sample, SampleCount, SampleRate
 
 
+cdef double EPSILON = 1.0e-12
+
+
 cdef double get_time_double(x) except *:
     if isinstance(x, Time):
         return x.time
@@ -59,6 +62,15 @@ cdef class Time(object):
             op
         )
 
+    def almost_eq(self, other, double epsilon=EPSILON):
+        return abs(get_time_double(self) - get_time_double(other)) <= epsilon
+
+    def almost_lt(self, other, double epsilon=EPSILON):
+        return (get_time_double(self) - get_time_double(other)) <= epsilon
+
+    def almost_gt(self, other, double epsilon=EPSILON):
+        return (get_time_double(other) - get_time_double(self)) <= epsilon
+
 
 cdef class Duration(object):
 
@@ -99,4 +111,13 @@ cdef class Duration(object):
             get_duration_double(other),
             op
         )
+
+    def almost_eq(self, other, double epsilon=EPSILON):
+        return abs(get_duration_double(self) - get_duration_double(other)) <= epsilon
+
+    def almost_lt(self, other, double epsilon=EPSILON):
+        return (get_duration_double(self) - get_duration_double(other)) <= epsilon
+
+    def almost_gt(self, other, double epsilon=EPSILON):
+        return (get_duration_double(other) - get_duration_double(self)) <= epsilon
 
